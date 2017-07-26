@@ -19,7 +19,8 @@ public class RoleService
 		return list;
 	}
 
-	public static Map<String, Object> list(Map<String, String> params, int page, int pagesize)
+	public static Map<String, Object> list(Map<String, String> params,
+			int page, int pagesize)
 	{
 		Map<String, Object> ret = new HashMap<String, Object>();
 		SQLExecutor executor = new SQLExecutor(db);
@@ -71,7 +72,7 @@ public class RoleService
 		List<R> list = db.find(sql, name);
 		return list == null || list.size() == 0;
 	}
-	
+
 	public static void del(String roleid)
 	{
 		String sql1 = "delete from userrole where roleid = ?";

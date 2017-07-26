@@ -69,10 +69,11 @@ define(['toastr' ], function(toastr) {
 		}
 	});
 	$(document).ajaxSend(function(ev, xhr, settings) {
+		var server = "";
 		if(settings.url.indexOf('.html') > -1){
 			//settings.url = "http://localhost:8089/" + settings.url;
 		}else{
-			settings.url = "http://localhost:8089/" + settings.url;
+			settings.url = server + settings.url;
 		}
 		xhr.setRequestHeader('Authorization', sessionStorage.token);
 	});
