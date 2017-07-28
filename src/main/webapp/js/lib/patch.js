@@ -28,7 +28,7 @@ define(['toastr' ], function(toastr) {
 	});
 	var sessionOut = false;
 	$.ajaxSetup({
-		timeout: 3000,
+		//timeout: 3000,
 		complete: function(xhr, status){
 			$('#loading').hide();
 			if(status == 'timeout'){

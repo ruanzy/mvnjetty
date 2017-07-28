@@ -2,21 +2,8 @@ define([ 'util', 'toastr' ], function(util, toastr) {
 	var obj = {
 		init : function() {
 			var me = this; 
-			util.render('html/demo2.html', 'container');
-			$('pre code').each(function(i, block) {
-				hljs.highlightBlock(block);
-			});
-			$('.dropdown-toggle').dropdown();
-			$('#m_del').on('click', function(){
-				alert('asd');
-			});
+			util.render('html/spark.html', 'container');
 			$('#spark').on('click', function(){me.spark();});
-			$('#adduser').on('click', function(){me.add();});
-			$('#addds').on('click', function(){me.addds();});
-			$('#del').on('click', function(){me.del();});
-			$("#progressbar").progressbar({
-			  value: 75
-			});
 			me.list();			
 		},
 		list: function(){
@@ -49,18 +36,6 @@ define([ 'util', 'toastr' ], function(util, toastr) {
 					{ header: util.i18n('SYS_USER_REGTIME'), field: 'regtime', align: 'center', width: 200},
 					{ header: util.i18n('OPERATE'), field: 'op', render : opRender, align: 'center', width: 200}
 				]
-			});
-			$('#datapager').pagination({
-				url : 'user/list',
-				callback: function(data){
-					data.deptRender = deptRender;
-					var html = util.tpl('html/sys/usertpl.html', data);
-					$('#datalist2').html(html);
-					$('#datalist2').find('a.setrole').on('click', function(){
-						var name = $(this).attr('data');
-						me.setRole(name);
-					});
-				}
 			});
 			function deptRender(v, r){
 				var arr = [];

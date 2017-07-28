@@ -1,10 +1,16 @@
 package com.rz.demo.action;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+
 import com.rz.common.R;
 import com.rz.demo.service.UserService;
+import com.rz.demo.util.SubmitJobToSpark;
 import com.rz.web.TokenUtil;
 import com.rz.web.WebUtil;
 
@@ -101,5 +107,21 @@ public class User
 		int page = Integer.valueOf(params.get("page"));
 		int pagesize = Integer.valueOf(params.get("pagesize"));
 		return UserService.big(params, page, pagesize);
+	}
+	
+	public String spark()
+	{
+		SubmitJobToSpark.submitJob();
+		String ret = "";
+		try
+		{
+			ret = IOUtils.toString(new FileInputStream("d:/ret/part-00000"));
+		}
+		catch (Exception e)
+		{
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		return ret;
 	}
 }

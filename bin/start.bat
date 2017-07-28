@@ -13,5 +13,5 @@ echo ---------------------------------------------------
 set "JAVA_CMD=java"
 :mainEntry
 @echo on
-mkdir log
+mkdir log 2>nul
 "%JAVA_CMD%" -jar abc-0.0.1-SNAPSHOT.war > %LOG%
