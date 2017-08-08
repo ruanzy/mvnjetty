@@ -10,7 +10,7 @@
     <logger name="org.eclipse.jetty" level="OFF" />  
     <logger name="org.quartz" level="OFF" additivity="false"/>  
 	
-	<root level="ERROR">
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

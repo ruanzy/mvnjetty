@@ -1,8 +1,6 @@
 package com.rz.demo.action;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -119,7 +117,6 @@ public class User
 		}
 		catch (Exception e)
 		{
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 		return ret;

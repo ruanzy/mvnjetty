@@ -13,16 +13,24 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- 编译时的编码 -->
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<jetty.version>9.2.10.v20150310</jetty.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.eclipse.jetty.aggregate</groupId> <artifactId>jetty-all</artifactId> 
-			<version>9.2.6.v20141205</version> </dependency> -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -73,11 +81,6 @@
 			<version>1.2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
 			<version>3.0.5</version>
@@ -94,8 +97,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.10</artifactId>
-			<version>1.0.2</version>
+			<artifactId>spark-core_2.11</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -159,15 +167,15 @@
 							</transformers>
 							<artifactSet>
 								<includes>
-									<include>org.eclipse.jetty.aggregate:*</include>
+									<include>org.eclipse.jetty:*</include>
 									<include>*:javax.servlet*</include>
 								</includes>
 							</artifactSet>
 							<filters>
 								<filter>
-									<artifact>org.eclipse.jetty.aggregate:*</artifact>
+									<artifact>org.eclipse.jetty:*</artifact>
 									<excludes>
-										<exclude>"META-INF/**/*</exclude>
+										<exclude>META-INF/**/*</exclude>
 										<exclude>images/**/*</exclude>
 										<exclude>.options</exclude>
 										<exclude>about.html</exclude>

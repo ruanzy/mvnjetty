@@ -16,17 +16,16 @@ public class App
 		{
 			server.setStopAtShutdown(true);
 			ProtectionDomain domain = App.class.getProtectionDomain();
-			URL warLocation = domain.getCodeSource().getLocation();
-			String classpath = new File(warLocation.getFile()).getParentFile()
-					.getAbsolutePath();
-			WebAppContext webapp = new WebAppContext();
+			URL location = domain.getCodeSource().getLocation();
+			String warFile = location.toExternalForm();
+			String currentDir = new File(location.getPath()).getParent();
+			File workDir = new File(currentDir, "work");
+			WebAppContext webapp = new WebAppContext(warFile, "/");
 			webapp.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
-			webapp.setContextPath("/");
-			webapp.setDescriptor(warLocation.toExternalForm() + "/WEB-INF/web.xml");
+			webapp.setDescriptor(warFile + "/WEB-INF/web.xml");
 			webapp.setServer(server);
-			webapp.setWar(warLocation.toExternalForm());
-			webapp.setTempDirectory(new File("./work"));
-			webapp.setExtraClasspath(classpath);
+			webapp.setTempDirectory(workDir);
+			webapp.setExtraClasspath(currentDir + "/conf");
 			server.setHandler(webapp);
 			server.start();
 			server.join();

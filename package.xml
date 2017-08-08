@@ -13,7 +13,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>src\main\resources</directory>
-			<outputDirectory>\</outputDirectory>
+			<outputDirectory>\conf</outputDirectory>
 			<includes>
 				<include>cfg.json</include>
 				<include>logback.xml</include>
@@ -21,9 +21,10 @@
 		</fileSet>
 		<fileSet>
 			<directory>bin</directory>
-			<outputDirectory>\</outputDirectory>
+			<outputDirectory>\bin</outputDirectory>
 			<includes>
 				<include>start.bat</include>
+				<include>start.sh</include>
 			</includes>
 		</fileSet>
 	</fileSets>
