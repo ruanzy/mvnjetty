@@ -5,9 +5,10 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import com.rz.common.R;
-import com.rz.data.db.DB;
-import com.rz.data.db.DBs;
+
+import jone.R;
+import jone.data.db.DB;
+import jone.data.db.DBs;
 
 public class SqlService
 {

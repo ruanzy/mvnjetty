@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.rz.common.R;
-import com.rz.data.db.DB;
-import com.rz.data.db.DBs;
-import com.rz.data.db.sql.SQLExecutor;
+import jone.R;
+import jone.data.db.DB;
+import jone.data.db.DBs;
+import jone.data.db.sql.SQLExecutor;
 
 public class RoleService
 {

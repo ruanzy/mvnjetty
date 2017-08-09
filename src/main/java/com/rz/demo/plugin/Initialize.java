@@ -3,12 +3,12 @@ package com.rz.demo.plugin;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import jone.data.db.DB;
+import jone.data.db.DBs;
+import jone.web.Plugin;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.rz.data.db.DB;
-import com.rz.data.db.DBs;
-import com.rz.web.Plugin;
 
 public class Initialize implements Plugin
 {

@@ -4,13 +4,14 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 
+import jone.R;
+import jone.web.TokenUtil;
+import jone.web.WebUtil;
+
 import org.apache.commons.io.IOUtils;
 
-import com.rz.common.R;
 import com.rz.demo.service.UserService;
 import com.rz.demo.util.SubmitJobToSpark;
-import com.rz.web.TokenUtil;
-import com.rz.web.WebUtil;
 
 public class User
 {

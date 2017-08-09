@@ -6,7 +6,7 @@
 	
 	<filter>
 		<filter-name>JOne</filter-name>
-		<filter-class>com.rz.web.JOne</filter-class>
+		<filter-class>jone.web.JOne</filter-class>
 		<init-param>
 			<param-name>base-package</param-name>
 			<param-value>com.rz.demo</param-value>

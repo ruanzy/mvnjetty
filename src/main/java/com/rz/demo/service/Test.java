@@ -1,7 +1,7 @@
 package com.rz.demo.service;
 
-import com.rz.data.db.DB;
-import com.rz.data.db.DBs;
+import jone.data.db.DB;
+import jone.data.db.DBs;
 
 public class Test {
 

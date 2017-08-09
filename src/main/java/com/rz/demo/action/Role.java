@@ -3,9 +3,10 @@ package com.rz.demo.action;
 import java.util.List;
 import java.util.Map;
 
-import com.rz.common.R;
+import jone.R;
+import jone.web.WebUtil;
+
 import com.rz.demo.service.RoleService;
-import com.rz.web.WebUtil;
 
 public class Role
 {

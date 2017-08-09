@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import jone.R;
+import jone.data.db.DB;
+import jone.data.db.DBs;
+import jone.data.db.RowHandler;
+import jone.data.db.sql.SQLExecutor;
 
-import com.rz.common.R;
-import com.rz.data.db.DB;
-import com.rz.data.db.DBs;
-import com.rz.data.db.RowHandler;
-import com.rz.data.db.sql.SQLExecutor;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserService
 {
