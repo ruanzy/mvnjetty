@@ -15,7 +15,18 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<jetty.version>9.2.10.v20150310</jetty.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>ruanzy-maven-repo</id>
+			<url>https://raw.githubusercontent.com/ruanzy/maven-repo/master/repository</url>
+		</repository>
+	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>com.rz</groupId>
+			<artifactId>jone</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
@@ -37,18 +48,9 @@
 			<version>1.2.35</version>
 		</dependency>
 		<dependency>
-			<groupId>JOne</groupId>
-			<artifactId>JOne</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/JOne-1.0.0.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>beetl</groupId>
+			<groupId>com.ibeetl</groupId>
 			<artifactId>beetl</artifactId>
-			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/beetl-2.3.0.jar</systemPath>
+			<version>2.7.21</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -209,23 +211,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.0.2</version>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>${project.basedir}/lib</directory>
-							<targetPath>WEB-INF/lib</targetPath>
-							<filtering>false</filtering>
-							<includes>
-								<include>**/*.jar</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
