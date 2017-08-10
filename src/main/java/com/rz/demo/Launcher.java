@@ -11,7 +11,7 @@ public class Launcher
 
 	public static void main(String[] args)
 	{
-		run(2);
+		run(1);
 	}
 
 	private static void run(int mode)

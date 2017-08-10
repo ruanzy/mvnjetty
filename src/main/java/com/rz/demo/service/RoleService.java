@@ -1,6 +1,5 @@
 package com.rz.demo.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,26 +18,16 @@ public class RoleService
 		return list;
 	}
 
-	public static Map<String, Object> list(Map<String, String> params,
+	public static Map<String, Object> list(R params,
 			int page, int pagesize)
 	{
-		Map<String, Object> ret = new HashMap<String, Object>();
 		SQLExecutor executor = new SQLExecutor(db);
-		int total = 0;
-		Object o = executor.scalar("role.rolecount", params);
-		if (o != null)
-		{
-			total = Integer.valueOf(o.toString());
-		}
-		List<R> list = executor.pager("role.rolelist", params, page, pagesize);
-		ret.put("total", total);
-		ret.put("data", list);
-		return ret;
+		return executor.pager("role.rolecount", "role.rolelist", params, page, pagesize);
 	}
 
-	public static void add(Map<String, String> params)
+	public static void add(R params)
 	{
-		String rolename = params.get("rolename");
+		String rolename = params.getString("rolename");
 		String sql = "insert into role(name) values(?)";
 		db.begin();
 		db.update(sql, new Object[] { rolename });

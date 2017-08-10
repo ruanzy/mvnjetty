@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import jone.R;
 import jone.data.db.DB;
@@ -30,30 +29,20 @@ public class UserService
 		return true;
 	}
 
-	public static R list(Map<String, String> params, int page, int pagesize)
+	public static R list(R params, int page, int pagesize)
 	{
-		R ret = new R();
 		SQLExecutor executor = new SQLExecutor(db);
-		int total = 0;
-		Object o = executor.scalar("user.count", params);
-		if (o != null)
-		{
-			total = Integer.valueOf(o.toString());
-		}
-		List<R> list = executor.pager("user.list", params, page, pagesize);
-		ret.put("total", total);
-		ret.put("data", list);
-		return ret;
+		return executor.pager("user.count", "user.list", params, page, pagesize);
 	}
 
-	public static void add(Map<String, String> params)
+	public static void add(R params)
 	{
-		String username = params.get("username");
-		String password = params.get("password");
+		String username = params.getString("username");
+		String password = params.getString("password");
 		String _password = DigestUtils.md5Hex(username + "_" + password);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = df.format(new Date());
-		String deptid = params.get("deptid");
+		int deptid = params.getInt("deptid");
 		String sql = "insert into users values(?,?,?,'2016-09-15',0,'email','888888',1,?,'')";
 		db.begin();
 		db.update(sql, new Object[] { username, _password, deptid, time});
@@ -143,19 +132,9 @@ public class UserService
 		return list;
 	}
 
-	public static R big(Map<String, String> params, int page, int pagesize)
+	public static R big(R params, int page, int pagesize)
 	{
-		R ret = new R();
 		SQLExecutor executor = new SQLExecutor(db);
-		int total = 0;
-		Object o = executor.scalar("user.count", params);
-		if (o != null)
-		{
-			total = Integer.valueOf(o.toString());
-		}
-		List<R> list = executor.pager("user.list", params, page, pagesize);
-		ret.put("total", total);
-		ret.put("data", list);
-		return ret;
+		return executor.pager("user.count", "user.list", params, page, pagesize);
 	}
 }

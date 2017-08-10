@@ -12,7 +12,7 @@ public class Role
 {
 	public void add()
 	{
-		Map<String, String> params = WebUtil.getParameters();
+		R params = WebUtil.params();
 		RoleService.add(params);
 	}
 	
@@ -29,9 +29,9 @@ public class Role
 
 	public Map<String, Object> list()
 	{
-		Map<String, String> params = WebUtil.getParameters();
-		int page = Integer.valueOf(params.get("page"));
-		int pagesize = Integer.valueOf(params.get("pagesize"));
+		R params = WebUtil.params();
+		int page = params.getInt("page");
+		int pagesize = params.getInt("pagesize");
 		return RoleService.list(params, page, pagesize);
 	}
 	

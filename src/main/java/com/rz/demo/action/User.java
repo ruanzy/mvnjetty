@@ -2,7 +2,6 @@ package com.rz.demo.action;
 
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.Map;
 
 import jone.R;
 import jone.web.TokenUtil;
@@ -35,7 +34,7 @@ public class User
 	
 	public void add()
 	{
-		Map<String, String> params = WebUtil.getParameters();
+		R params = WebUtil.params();
 		UserService.add(params);
 	}
 	
@@ -47,9 +46,9 @@ public class User
 
 	public R list()
 	{
-		Map<String, String> params = WebUtil.getParameters();
-		int page = Integer.valueOf(params.get("page"));
-		int pagesize = Integer.valueOf(params.get("pagesize"));
+		R params = WebUtil.params();
+		int page = params.getInt("page");
+		int pagesize = params.getInt("pagesize");
 		return UserService.list(params, page, pagesize);
 	}
 
@@ -102,9 +101,9 @@ public class User
 	
 	public R big()
 	{
-		Map<String, String> params = WebUtil.getParameters();
-		int page = Integer.valueOf(params.get("page"));
-		int pagesize = Integer.valueOf(params.get("pagesize"));
+		R params = WebUtil.params();
+		int page = params.getInt("page");
+		int pagesize = params.getInt("pagesize");
 		return UserService.big(params, page, pagesize);
 	}
 	
