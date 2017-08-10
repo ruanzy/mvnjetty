@@ -1,6 +1,6 @@
 package com.rz.demo.action;
 
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.util.List;
 
 import jone.R;
@@ -113,7 +113,7 @@ public class User
 		String ret = "";
 		try
 		{
-			ret = IOUtils.toString(new FileInputStream("d:/ret/part-00000"));
+			ret = IOUtils.toString(new FileReader("d:/ret/part-00000"));
 		}
 		catch (Exception e)
 		{
