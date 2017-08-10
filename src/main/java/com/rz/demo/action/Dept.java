@@ -16,32 +16,32 @@ public class Dept
 	
 	public void update()
 	{
-		R r = WebUtil.getParams();
+		R r = WebUtil.params();
 		DeptService.update(r);
 	}
 	
 	public void add()
 	{
-		R r = WebUtil.getParams();
+		R r = WebUtil.params();
 		DeptService.add(r);
 	}
 	
 	public void del()
 	{
-		String id = WebUtil.getParameter("id");
+		String id = WebUtil.param("id");
 		DeptService.del(id);
 	}
 	
 	public List<R> getPermission()
 	{
-		String id = WebUtil.getParameter("id");
+		String id = WebUtil.param("id");
 		return DeptService.getPermission(id);
 	}
 	
 	public void setPermission()
 	{
-		String deptid = WebUtil.getParameter("deptid");
-		String permissions = WebUtil.getParameter("permissions");
+		String deptid = WebUtil.param("deptid");
+		String permissions = WebUtil.param("permissions");
 		DeptService.setPermission(deptid, permissions);
 	}
 }

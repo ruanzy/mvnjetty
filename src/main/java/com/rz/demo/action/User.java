@@ -17,8 +17,8 @@ public class User
 {
 	public R login() {
 		R ret = new R();
-		String username = WebUtil.getParameter("username");
-		String password = WebUtil.getParameter("password");
+		String username = WebUtil.param("username");
+		String password = WebUtil.param("password");
 		boolean flag = UserService.login(username, password);
 		if (flag) {
 			String token = TokenUtil.generatorToken(username);
@@ -41,7 +41,7 @@ public class User
 	
 	public boolean validname()
 	{
-		String username = WebUtil.getParameter("username");
+		String username = WebUtil.param("username");
 		return UserService.validname(username);
 	}
 
@@ -55,48 +55,48 @@ public class User
 
 	public void del()
 	{
-		String username = WebUtil.getParameter("username");
+		String username = WebUtil.param("username");
 		UserService.del(username);
 	}
 
 	public void cancel()
 	{
-		String username = WebUtil.getParameter("username");
+		String username = WebUtil.param("username");
 		UserService.cancel(username);
 	}
 
 	public List<R> getRoles()
 	{
-		String userid = WebUtil.getParameter("username");
+		String userid = WebUtil.param("username");
 		return UserService.getRoles(userid);
 	}
 
 	public void setRole()
 	{
-		String username = WebUtil.getParameter("username");
-		String roles = WebUtil.getParameter("roles");
+		String username = WebUtil.param("username");
+		String roles = WebUtil.param("roles");
 		UserService.setRole(username, roles);
 	}
 	
 	
 	public int modifyPwd()
 	{
-		String username = WebUtil.getParameter("username");
-		String oldpassword = WebUtil.getParameter("oldpassword");
-		String password = WebUtil.getParameter("password");
+		String username = WebUtil.param("username");
+		String oldpassword = WebUtil.param("oldpassword");
+		String password = WebUtil.param("password");
 		return UserService.modifyPwd(username, oldpassword, password);
 	}
 	
 	public int resetpwd()
 	{
-		String username = WebUtil.getParameter("username");
-		String password = WebUtil.getParameter("password");
+		String username = WebUtil.param("username");
+		String password = WebUtil.param("password");
 		return UserService.resetpwd(username, password);
 	}
 	
 	public List<String> getPermission()
 	{
-		String username = WebUtil.getParameter("username");
+		String username = WebUtil.param("username");
 		return UserService.getPermission(username);
 	}
 	

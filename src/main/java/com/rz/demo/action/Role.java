@@ -18,7 +18,7 @@ public class Role
 	
 	public boolean validname()
 	{
-		String rolename = WebUtil.getParameter("rolename");
+		String rolename = WebUtil.param("rolename");
 		return RoleService.validname(rolename);
 	}
 	
@@ -37,20 +37,20 @@ public class Role
 	
 	public void setPermission()
 	{
-		String roleid = WebUtil.getParameter("roleid");
-		String permissions = WebUtil.getParameter("permissions");
+		String roleid = WebUtil.param("roleid");
+		String permissions = WebUtil.param("permissions");
 		RoleService.setPermission(roleid, permissions);
 	}
 	
 	public List<R> getPermission()
 	{
-		String roleid = WebUtil.getParameter("roleid");
+		String roleid = WebUtil.param("roleid");
 		return RoleService.getPermission(roleid);
 	}
 	
 	public void del()
 	{
-		String id = WebUtil.getParameter("id");
+		String id = WebUtil.param("id");
 		RoleService.del(id);
 	}
 }
