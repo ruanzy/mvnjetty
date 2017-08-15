@@ -15,15 +15,9 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<jetty.version>9.2.10.v20150310</jetty.version>
 	</properties>
-	<repositories>
-		<repository>
-			<id>ruanzy-maven-repo</id>
-			<url>https://raw.githubusercontent.com/ruanzy/maven-repo/master/repository</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>com.rz</groupId>
+			<groupId>com.github.ruanzy</groupId>
 			<artifactId>jone</artifactId>
 			<version>1.0.0</version>
 		</dependency>
