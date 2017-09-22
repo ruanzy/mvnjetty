@@ -10,6 +10,8 @@ import jone.web.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rz.demo.util.MonitorUtil;
+
 public class Initialize implements Plugin
 {
 	static final Logger logger = LoggerFactory.getLogger(Initialize.class);
@@ -36,6 +38,7 @@ public class Initialize implements Plugin
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
+		MonitorUtil.start();
 	}
 
 	@Override

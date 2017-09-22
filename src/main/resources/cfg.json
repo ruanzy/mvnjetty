@@ -6,5 +6,6 @@
 			username : "SA", 
 			password : "" 
 		}
-	}
+	},
+	rrdDir: "d:/myrrd"
 }
