@@ -13,7 +13,7 @@ public class Monitor
 		return MonitorService.getMemeryHistory(point);
 	}
 	
-	public double memery()
+	public R memery()
 	{
 		return MonitorService.getMemery();
 	}

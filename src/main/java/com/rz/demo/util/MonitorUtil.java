@@ -57,8 +57,8 @@ public class MonitorUtil
 			map.put("hmu_committed", 1.0 * heapMemoryUsage.getCommitted());
 			map.put("hmu_max", 1.0 * heapMemoryUsage.getMax());
 			System.out.println(heapMemoryUsage.getInit());
-			System.out.println(new Date().toLocaleString()
-					+ heapMemoryUsage.getCommitted());
+			System.out.println(heapMemoryUsage.getCommitted());
+			System.out.println(heapMemoryUsage.getUsed());
 			double mem_usage = heapMemoryUsage.getUsed() * 1.0
 					/ heapMemoryUsage.getCommitted() * 100;
 			map.put("mem_usage", mem_usage);
@@ -90,8 +90,9 @@ public class MonitorUtil
 
 	public static void start()
 	{
-		RrdUtils.createRrd("192168001001_hmuinit.rrd", "hmuinit");
+		RrdUtils.createRrd("192168001001_hmucommitted.rrd", "hmucommitted");
 		RrdUtils.createRrd("192168001001_hmuused.rrd", "hmuused");
+		RrdUtils.createRrd("192168001001_hmumax.rrd", "hmumax");
 		new Timer().schedule(new TimerTask() {
 
 			@Override
@@ -99,12 +100,15 @@ public class MonitorUtil
 			{
 				Map<String, Double> m = MonitorUtil.getMonitorInfo("localhost",
 						"9401");
-				Double hmuinit = m.get("hmu_init");
+				Double hmucommitted = m.get("hmu_committed");
 				Double hmuused = m.get("hmu_used");
-				RrdUtils.writeRrd("192168001001_hmuinit.rrd", "hmuinit",
-						hmuinit);
+				Double hmumax = m.get("hmu_max");
+				RrdUtils.writeRrd("192168001001_hmucommitted.rrd", "hmucommitted",
+						hmucommitted);
 				RrdUtils.writeRrd("192168001001_hmuused.rrd", "hmuused",
 						hmuused);
+				RrdUtils.writeRrd("192168001001_hmumax.rrd", "hmumax",
+						hmumax);
 			}
 		}, 1000, RrdUtils.STEP * 1000);
 	}

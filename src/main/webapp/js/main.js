@@ -24,6 +24,7 @@ require.config({
 		patch : "lib/patch",
 		util : "lib/util",
 		echarts : "lib/echarts/echarts.min",
+		macarons : "lib/echarts/macarons",
 		editableSelect : "lib/editableSelect/jquery-editable-select",
 		jsonview : "lib/jsonview/dist/jquery.jsonview",
 		bootstrapDialog : "lib/bootstrap-dialog/js/bootstrap-dialog",
@@ -62,7 +63,8 @@ require.config({
 		"editableSelect" : [ "jquery", "css!lib/editableSelect/jquery-editable-select"],
 		"jsonview" : ["css!lib/jsonview/dist/jquery.jsonview"],
 		"metisMenu" : [ "css!lib/metisMenu/metisMenu", "css!lib/metisMenu/mm-vertical" ],
-		"iCheck" : [ "jquery", "css!lib/iCheck/custom.css"]
+		"iCheck" : [ "jquery", "css!lib/iCheck/custom.css"],
+		"echarts" : ["jquery"]
 	},
 	map: {
 	  '*': {
@@ -71,7 +73,7 @@ require.config({
 	}
 });
 require(['bootstrap', 'treegrid', 'jqueryuiext', 'dialog', 'select2',  'grid', 'form', 'echarts', 'My97DatePicker', 'ztree', 'highlight', 'toastr', 'metisMenu', 'pagination', 'slimscroll', 'steps', 'iCheck'], function() {
-	require(['patch', 'app/index'], function(_, index) {
+	require(['patch', 'app/index', 'macarons'], function(_, index) {
 		index.init();
 	});
 });

@@ -1,10 +1,143 @@
-define(['util', 'toastr'], function(util, toastr){
+define(['util', 'toastr', 'echarts'], function(util, toastr, echarts){
 	var obj = {
 		init: function(){
 			var me = this;
 			util.render('html/rolemgr.html', 'container');
 			$('#add').on('click', function(){me.add();});
 			me.list();
+
+		  
+		    var chart = echarts.init(document.getElementById('charts1'), 'macarons');
+		    function  showChart(data){
+		    	chart.showLoading({    
+                    text : "图表数据正在努力加载..."    
+                }); 
+		    	var hmucommitted = data.hmucommitted;
+		    	var hmuused = data.hmuused;
+		    	var timestamps = [];
+		    	var values1 = [];
+		    	var values2 = [];
+		    	var size = hmuused.length;
+		    	var num = (size - 1) * 5 * 1000;
+		    	var t = new Date().getTime() - num;
+		    	for (var i = 0; i < size; i++) {
+		    		var d = new Date(t);
+		    		var str = util.dateFormat(d, 'HH:mm:ss');
+		    		timestamps.push(str);
+		    		values1.push(hmucommitted[i]);
+		    		values2.push(hmuused[i]);
+		    		t += 5 * 1000;
+		    	}
+		        var option = {
+		        		color: ['#6495ed','#2ec7c9','#6495ed',
+		        	            '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
+		        	            '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
+		        	            '#6699FF','#ff6666','#3cb371','#b8860b','#30e0e0'],
+			                legend: {
+			                	data:['堆内存已使用', '堆内存大小']
+			                },
+		            tooltip: {
+		              trigger: 'axis',
+		              axisPointer: {
+		                animation: false
+		              }
+		            },
+		            calculable : true,
+		            xAxis: {
+		              type: 'category',
+		  			  data: timestamps,
+		  			  boundaryGap: false,
+			  			axisLine: {
+			  				lineStyle: {
+			  					color: '#777'
+			  				}
+			  			},
+		                splitLine: {
+		                  show: true
+		                }
+		            },
+		            yAxis: {
+		              type: 'value',
+		              boundaryGap: [0, '100%'],
+						axisLine: {
+							lineStyle: {
+								color: '#777' 
+							}
+						},
+						axisLabel : {
+							formatter: function(value, index)
+							{
+								return 50 * index + "M";
+							}
+						},
+		              splitNumber: 3,
+		              splitArea : {show : true},
+		              splitLine: {
+		                show: true
+		              }
+		            },
+		            series: [{
+			              name: '堆内存大小',
+			              type: 'line',
+			              showSymbol: false,
+			              hoverAnimation: false,
+			              splitNumber : 10,
+			              data: values1
+			            },{
+				              name: '堆内存已使用',
+				              type: 'line',
+				              showSymbol: false,
+				              hoverAnimation: false,
+				              data: values2
+				            }]
+		          }
+				chart.setOption(option);
+		        chart.hideLoading();
+		        update();
+		    }
+	        function  initChart(){
+				$.ajax({
+					url: 'monitor/memeryHistory',
+					type: 'post',
+					async: false,
+					data: {point: 200},
+					dataType: 'json',
+			        success: function(data){
+			        	showChart(data);
+					}
+				});
+	        }
+	        initChart();
+	        function update(){
+		        var timer = setInterval(function () {
+		        	var d = new Date();
+					$.ajax({
+						url: 'monitor/memery',
+						type: 'post',
+						async: false,
+						dataType: 'json',
+				        success: function(data){
+					    	var hmucommitted = data.hmucommitted;
+					    	var hmuused = data.hmuused;
+					    	var hmumax = data.hmumax;
+				        	var opt = chart.getOption();
+					    	var str = util.dateFormat(d, 'HH:mm:ss');
+					    	var v1 = hmucommitted;
+					    	var v2 = hmuused;
+					    	$('#mem_max').text(hmumax);
+					    	$('#mem_committed').text(hmucommitted);
+					    	$('#mem_used').text(hmuused);
+					    	opt.xAxis[0].data.shift();
+					    	opt.series[0].data.shift();
+					    	opt.series[1].data.shift();
+					    	opt.xAxis[0].data.push(str);
+					    	opt.series[0].data.push(v1);
+					    	opt.series[1].data.push(v2);
+					    	chart.setOption(opt);
+						}
+					});
+		        }, 5000);
+        	}
 		},
 		list: function(){
 			var me = this;
