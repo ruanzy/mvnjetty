@@ -7,5 +7,5 @@
 			password : "" 
 		}
 	},
-	rrdDir: "e:/myrrd"
+	rrdDir: "F:/myrrd"
 }

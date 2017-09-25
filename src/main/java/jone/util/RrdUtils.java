@@ -16,7 +16,7 @@ import org.rrd4j.core.Sample;
 import org.rrd4j.core.Util;
 
 public class RrdUtils {
-	static final String RRDDIR = "e:/myrrd";
+	static final String RRDDIR = "F:/myrrd";
 	static final long START = Util.getTimestamp();
 	public static final int STEP = 5;
 	static final int YEAR = 60 * 60 * 24 * 365;
