@@ -1,31 +1,30 @@
 package com.rz.demo.service;
 
-import jone.R;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import jone.util.RrdUtils;
 
 public class MonitorService
 {
-	public static R getMemeryHistory(int point)  
+	public static Map<String, double[]> getMemery(int point)  
     {  
-		R r = new R();
-		double[] hmucommitted = RrdUtils.readLastValues("192168001001_hmucommitted.rrd", "hmucommitted", point, 1);
-		double[] hmuused = RrdUtils.readLastValues("192168001001_hmuused.rrd", "hmuused", point, 1);
-		double[] hmumax = RrdUtils.readLastValues("192168001001_hmumax.rrd", "hmumax", point, 1);
-		r.put("hmucommitted", hmucommitted);
-		r.put("hmuused", hmuused);
-		r.put("hmumax", hmumax);
-		return r;
+		List<String> dss = new ArrayList<String>();
+		dss.add("hmucommitted");
+		dss.add("hmuused");
+		dss.add("hmumax");
+		Map<String, double[]> ret = RrdUtils.readLastValues("192_168_1_1.rrd", dss, point, 1);
+		return ret;
     }
 	
-	public static R getMemery()  
+	public static Map<String, double[]> getThread(int point)  
     {  
-		R r = new R();
-		double hmucommitted = RrdUtils.readLastValues("192168001001_hmucommitted.rrd", "hmucommitted", 1, 1)[0];
-		double hmuused = RrdUtils.readLastValues("192168001001_hmuused.rrd", "hmuused", 1, 1)[0];
-		double hmumax = RrdUtils.readLastValues("192168001001_hmumax.rrd", "hmumax", 1, 1)[0];
-		r.put("hmucommitted", hmucommitted);
-		r.put("hmuused", hmuused);
-		r.put("hmumax", hmumax);
-		return r;
+		List<String> dss = new ArrayList<String>();
+		dss.add("thread_daemon");
+		dss.add("thread_started");
+		dss.add("thread_active");
+		Map<String, double[]> ret = RrdUtils.readLastValues("192_168_1_1.rrd", dss, point, 1);
+		return ret;
     }
 }

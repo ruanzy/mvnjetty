@@ -5,8 +5,9 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,25 +44,53 @@ public class MonitorUtil
 							ManagementFactory.MEMORY_MXBEAN_NAME,
 							MemoryMXBean.class);
 			MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+//			map.put("hmuinit", 1.0 * heapMemoryUsage.getInit());
+			map.put("hmuused", 1.0 * heapMemoryUsage.getUsed());
+			map.put("hmucommitted", 1.0 * heapMemoryUsage.getCommitted());
+			map.put("hmumax", 1.0 * heapMemoryUsage.getMax());
+//			double mem_usage = heapMemoryUsage.getUsed() * 1.0
+//					/ heapMemoryUsage.getCommitted() * 100;
+//			map.put("memusage", mem_usage);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				jmxConnector.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		return map;
+	}
+	
+	public static Map<String, Double> getThreadInfo(String ip, String jmxPort)
+	{
+
+		Map<String, Double> map = new HashMap<>();
+		JMXConnector jmxConnector = null;
+		try
+		{
+
+			String jmxURL = "service:jmx:rmi:///jndi/rmi://" + ip + ":"
+					+ jmxPort + "/jmxrmi";
+			JMXServiceURL serviceURL = new JMXServiceURL(jmxURL);
+			jmxConnector = JMXConnectorFactory.connect(serviceURL);
+			MBeanServerConnection mBeanServerConnection = jmxConnector
+					.getMBeanServerConnection();
+
 
 			ThreadMXBean threadMXBean = ManagementFactory
 					.newPlatformMXBeanProxy(mBeanServerConnection,
 							ManagementFactory.THREAD_MXBEAN_NAME,
 							ThreadMXBean.class);
-			com.sun.management.OperatingSystemMXBean opMXbean = ManagementFactory
-					.newPlatformMXBeanProxy(mBeanServerConnection,
-							ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME,
-							com.sun.management.OperatingSystemMXBean.class);
-			map.put("hmu_init", 1.0 * heapMemoryUsage.getInit());
-			map.put("hmu_used", 1.0 * heapMemoryUsage.getUsed());
-			map.put("hmu_committed", 1.0 * heapMemoryUsage.getCommitted());
-			map.put("hmu_max", 1.0 * heapMemoryUsage.getMax());
-			System.out.println(heapMemoryUsage.getInit());
-			System.out.println(heapMemoryUsage.getCommitted());
-			System.out.println(heapMemoryUsage.getUsed());
-			double mem_usage = heapMemoryUsage.getUsed() * 1.0
-					/ heapMemoryUsage.getCommitted() * 100;
-			map.put("mem_usage", mem_usage);
 			double thread_daemon = threadMXBean.getDaemonThreadCount();
 			double thread_started = threadMXBean.getTotalStartedThreadCount();
 			double thread_active = threadMXBean.getThreadCount();
@@ -90,25 +119,24 @@ public class MonitorUtil
 
 	public static void start()
 	{
-		RrdUtils.createRrd("192168001001_hmucommitted.rrd", "hmucommitted");
-		RrdUtils.createRrd("192168001001_hmuused.rrd", "hmuused");
-		RrdUtils.createRrd("192168001001_hmumax.rrd", "hmumax");
+		List<String> dss1 = new ArrayList<String>();
+		dss1.add("hmucommitted");
+		dss1.add("hmuused");
+		dss1.add("hmumax");
+		List<String> dss2 = new ArrayList<String>();
+		dss2.add("thread_daemon");
+		dss2.add("thread_started");
+		dss2.add("thread_active");
+		RrdUtils.createRrd("192_168_1_1.rrd", dss1);
+		RrdUtils.createRrd("192_168_1_2.rrd", dss2);
 		new Timer().schedule(new TimerTask() {
-
 			@Override
 			public void run()
 			{
-				Map<String, Double> m = MonitorUtil.getMonitorInfo("localhost",
-						"9401");
-				Double hmucommitted = m.get("hmu_committed");
-				Double hmuused = m.get("hmu_used");
-				Double hmumax = m.get("hmu_max");
-				RrdUtils.writeRrd("192168001001_hmucommitted.rrd", "hmucommitted",
-						hmucommitted);
-				RrdUtils.writeRrd("192168001001_hmuused.rrd", "hmuused",
-						hmuused);
-				RrdUtils.writeRrd("192168001001_hmumax.rrd", "hmumax",
-						hmumax);
+				Map<String, Double> values1 = MonitorUtil.getMonitorInfo("localhost", "9401");
+				Map<String, Double> values2 = MonitorUtil.getThreadInfo("localhost", "9401");
+				RrdUtils.writeRrd("192_168_1_1.rrd", values1);
+				RrdUtils.writeRrd("192_168_1_2.rrd", values2);
 			}
 		}, 1000, RrdUtils.STEP * 1000);
 	}

@@ -1,20 +1,22 @@
 package com.rz.demo.action;
 
-import jone.R;
+import java.util.Map;
+
 import jone.web.WebUtil;
 
 import com.rz.demo.service.MonitorService;
 
 public class Monitor
 {
-	public R memeryHistory()
+	public Map<String, double[]> memery()
 	{
 		int point = Integer.valueOf(WebUtil.param("point"));
-		return MonitorService.getMemeryHistory(point);
+		return MonitorService.getMemery(point);
 	}
 	
-	public R memery()
+	public Map<String, double[]> thread()
 	{
-		return MonitorService.getMemery();
+		int point = Integer.valueOf(WebUtil.param("point"));
+		return MonitorService.getThread(point);
 	}
 }
