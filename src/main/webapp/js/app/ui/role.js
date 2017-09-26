@@ -58,19 +58,13 @@ define(['util', 'toastr', 'echarts'], function(util, toastr, echarts){
 		            },
 		            yAxis: {
 		              type: 'value',
+		              splitNumber: 3,
 		              boundaryGap: [0, '100%'],
 						axisLine: {
 							lineStyle: {
 								color: '#777' 
 							}
 						},
-						axisLabel : {
-							formatter: function(value, index)
-							{
-								return 50 * index + "M";
-							}
-						},
-		              splitNumber: 3,
 		              splitArea : {show : true},
 		              splitLine: {
 		                show: true
@@ -81,7 +75,6 @@ define(['util', 'toastr', 'echarts'], function(util, toastr, echarts){
 			              type: 'line',
 			              showSymbol: false,
 			              hoverAnimation: false,
-			              splitNumber : 10,
 			              data: values1
 			            },{
 				              name: '堆内存已使用',
@@ -97,7 +90,7 @@ define(['util', 'toastr', 'echarts'], function(util, toastr, echarts){
 		    }
 	        function  initChart(){
 				$.ajax({
-					url: 'monitor/memeryHistory',
+					url: 'monitor/memery',
 					type: 'post',
 					async: false,
 					data: {point: 200},
@@ -115,11 +108,12 @@ define(['util', 'toastr', 'echarts'], function(util, toastr, echarts){
 						url: 'monitor/memery',
 						type: 'post',
 						async: false,
+						data: {point: 1},
 						dataType: 'json',
 				        success: function(data){
-					    	var hmucommitted = data.hmucommitted;
-					    	var hmuused = data.hmuused;
-					    	var hmumax = data.hmumax;
+					    	var hmucommitted = data.hmucommitted[0];
+					    	var hmuused = data.hmuused[0];
+					    	var hmumax = data.hmumax[0];;
 				        	var opt = chart.getOption();
 					    	var str = util.dateFormat(d, 'HH:mm:ss');
 					    	var v1 = hmucommitted;
