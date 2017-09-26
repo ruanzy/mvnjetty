@@ -17,20 +17,25 @@ import org.rrd4j.core.Util;
 
 public class RrdUtils {
 	static final String RRDDIR = Cfg.getString("rrdDir");
-	static final long START = Util.getTimestamp();
 	public static final int STEP = 5;
 	static final int YEAR = 60 * 60 * 24 * 365;
 	static final int DAY = 60 * 60 * 24;
 	static final int HOUR = 60 * 60;
 	static final int MINUTE = 60;
+	
+	static {
+		File dir = new File(RRDDIR);
+		if(!dir.exists()){
+			dir.mkdirs();
+		}
+	}
 
 	public static void createRrd(String fileName, String ds) {
 		RrdDb rrdDb = null;
 		try {
-			File f = new File(RRDDIR, fileName);
-			if(!f.exists()){
-				String rrdPath = f.getPath();
-				RrdDef rrdDef = new RrdDef(rrdPath, START - 1, STEP);
+			String rrdPath = new File(RRDDIR, fileName).getPath();
+			if(!Util.fileExists(rrdPath)){
+				RrdDef rrdDef = new RrdDef(rrdPath, STEP);
 				rrdDef.addDatasource(ds, GAUGE, 2 * STEP, 0, Double.NaN);
 				rrdDef.addArchive(AVERAGE, 0.5, 1, YEAR / STEP);
 				rrdDef.addArchive(AVERAGE, 0.5, DAY / STEP, YEAR / DAY);
@@ -86,7 +91,6 @@ public class RrdUtils {
 			String rrdPath = new File(RRDDIR, fileName).getPath();
 			rrdDb = new RrdDb(rrdPath);
 			FetchRequest request = rrdDb.createFetchRequest(AVERAGE, start, end);
-			System.out.println(request.dump());
 			FetchData fetchData = request.fetchData();
 			return fetchData.getValues(ds);
 		} catch (Exception e) {
