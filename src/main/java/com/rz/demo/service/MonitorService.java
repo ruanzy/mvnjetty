@@ -1,7 +1,6 @@
 package com.rz.demo.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import jone.util.RrdUtils;
@@ -10,21 +9,25 @@ public class MonitorService
 {
 	public static Map<String, double[]> getMemery(int point)  
     {  
-		List<String> dss = new ArrayList<String>();
-		dss.add("hmucommitted");
-		dss.add("hmuused");
-		dss.add("hmumax");
-		Map<String, double[]> ret = RrdUtils.readLastValues("192_168_1_1.rrd", dss, point, 1);
+		Map<String, double[]> ret = new HashMap<String, double[]>();
+		double[] hmucommitted = RrdUtils.readLastValues("hmucommitted.rrd", "hmucommitted", point, 1);
+		double[] hmuused = RrdUtils.readLastValues("hmuused.rrd", "hmuused", point, 1);
+		double[] hmumax = RrdUtils.readLastValues("hmumax.rrd", "hmumax", point, 1);
+		ret.put("hmucommitted", hmucommitted);
+		ret.put("hmuused", hmuused);
+		ret.put("hmumax", hmumax);
 		return ret;
     }
 	
 	public static Map<String, double[]> getThread(int point)  
     {  
-		List<String> dss = new ArrayList<String>();
-		dss.add("thread_daemon");
-		dss.add("thread_started");
-		dss.add("thread_active");
-		Map<String, double[]> ret = RrdUtils.readLastValues("192_168_1_1.rrd", dss, point, 1);
+		Map<String, double[]> ret = new HashMap<String, double[]>();
+		double[] thread_daemon = RrdUtils.readLastValues("thread_daemon.rrd", "thread_daemon", point, 1);
+		double[] thread_started = RrdUtils.readLastValues("thread_started.rrd", "thread_started", point, 1);
+		double[] thread_active = RrdUtils.readLastValues("thread_active.rrd", "thread_active", point, 1);
+		ret.put("thread_daemon", thread_daemon);
+		ret.put("thread_started", thread_started);
+		ret.put("thread_active", thread_active);
 		return ret;
     }
 }

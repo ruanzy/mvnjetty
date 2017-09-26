@@ -5,9 +5,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -119,24 +117,24 @@ public class MonitorUtil
 
 	public static void start()
 	{
-		List<String> dss1 = new ArrayList<String>();
-		dss1.add("hmucommitted");
-		dss1.add("hmuused");
-		dss1.add("hmumax");
-		List<String> dss2 = new ArrayList<String>();
-		dss2.add("thread_daemon");
-		dss2.add("thread_started");
-		dss2.add("thread_active");
-		RrdUtils.createRrd("192_168_1_1.rrd", dss1);
-		RrdUtils.createRrd("192_168_1_2.rrd", dss2);
+		RrdUtils.createRrd("hmucommitted.rrd", "hmucommitted");
+		RrdUtils.createRrd("hmuused.rrd", "hmuused");
+		RrdUtils.createRrd("hmumax.rrd", "hmumax");
+		RrdUtils.createRrd("thread_daemon.rrd", "thread_daemon");
+		RrdUtils.createRrd("thread_started.rrd", "thread_started");
+		RrdUtils.createRrd("thread_active.rrd", "thread_active");
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run()
 			{
 				Map<String, Double> values1 = MonitorUtil.getMonitorInfo("localhost", "9401");
 				Map<String, Double> values2 = MonitorUtil.getThreadInfo("localhost", "9401");
-				RrdUtils.writeRrd("192_168_1_1.rrd", values1);
-				RrdUtils.writeRrd("192_168_1_2.rrd", values2);
+				RrdUtils.writeRrd("hmucommitted.rrd", "hmucommitted", values1.get("hmucommitted"));
+				RrdUtils.writeRrd("hmuused.rrd", "hmuused", values1.get("hmuused"));
+				RrdUtils.writeRrd("hmumax.rrd", "hmumax", values1.get("hmumax"));
+				RrdUtils.writeRrd("thread_daemon.rrd", "thread_daemon", values2.get("thread_daemon"));
+				RrdUtils.writeRrd("thread_started.rrd", "thread_started", values2.get("thread_started"));
+				RrdUtils.writeRrd("thread_active.rrd", "thread_active", values2.get("thread_active"));
 			}
 		}, 1000, RrdUtils.STEP * 1000);
 	}

@@ -5,9 +5,6 @@ import static org.rrd4j.DsType.GAUGE;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.rrd4j.ConsolFun;
 import org.rrd4j.core.Archive;
@@ -27,27 +24,32 @@ public class RrdUtils {
 	static final int HOUR = 60 * 60;
 	static final int MINUTE = 60;
 
-	public static void createRrd(String fileName, List<String> dss) {
-		String rrdPath = new File(RRDDIR, fileName).getPath();
-		RrdDef rrdDef = new RrdDef(rrdPath, START - 1, STEP);
-		for (String ds : dss)
-		{
-			rrdDef.addDatasource(ds, GAUGE, 2 * STEP, 0, Double.NaN);
-		}
-		rrdDef.addArchive(AVERAGE, 0.5, 1, YEAR / STEP);
-		rrdDef.addArchive(AVERAGE, 0.5, DAY / STEP, YEAR / DAY);
-		rrdDef.addArchive(AVERAGE, 0.5, HOUR / STEP, YEAR / HOUR);
-		rrdDef.addArchive(AVERAGE, 0.5, MINUTE / STEP, YEAR / MINUTE);
+	public static void createRrd(String fileName, String ds) {
 		RrdDb rrdDb = null;
 		try {
-			rrdDb = new RrdDb(rrdDef);
+			File f = new File(RRDDIR, fileName);
+			if(!f.exists()){
+				String rrdPath = f.getPath();
+				RrdDef rrdDef = new RrdDef(rrdPath, START - 1, STEP);
+				rrdDef.addDatasource(ds, GAUGE, 2 * STEP, 0, Double.NaN);
+				rrdDef.addArchive(AVERAGE, 0.5, 1, YEAR / STEP);
+				rrdDef.addArchive(AVERAGE, 0.5, DAY / STEP, YEAR / DAY);
+				rrdDef.addArchive(AVERAGE, 0.5, HOUR / STEP, YEAR / HOUR);
+				rrdDef.addArchive(AVERAGE, 0.5, MINUTE / STEP, YEAR / MINUTE);
+				rrdDb = new RrdDb(rrdDef);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				rrdDb.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (rrdDb != null){
+				try
+				{
+					rrdDb.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -64,29 +66,16 @@ public class RrdUtils {
 			sample.update();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public static void writeRrd(String fileName, Map<String, Double> values) {
-		RrdDb rrdDb = null;
-		try {
-			String rrdPath = new File(RRDDIR, fileName).getPath();
-			rrdDb = new RrdDb(rrdPath);
-			Sample sample = rrdDb.createSample();
-			long time = Util.normalize(Util.getTimestamp(), STEP);
-			sample.setTime(time);
-			for (Map.Entry<String, Double> v : values.entrySet())
-			{
-				sample.setValue(v.getKey(), v.getValue());
-			}
-			sample.update();
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
-			try {
-				rrdDb.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (rrdDb != null){
+				try
+				{
+					rrdDb.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -102,6 +91,17 @@ public class RrdUtils {
 			return fetchData.getValues(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (rrdDb != null){
+				try
+				{
+					rrdDb.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		return null;
 	}
@@ -120,29 +120,18 @@ public class RrdUtils {
 			return fetchData.getValues(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (rrdDb != null){
+				try
+				{
+					rrdDb.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		return null;
-	}
-		
-	public static Map<String, double[]> readLastValues(String fileName, List<String> dss, int size, int steps) {
-		Map<String, double[]> ret = new HashMap<String, double[]>();
-		RrdDb rrdDb = null;
-		try {
-			long resolution = steps * RrdUtils.STEP;
-			String rrdPath = new File(RRDDIR, fileName).getPath();
-			rrdDb = new RrdDb(rrdPath);
-			Archive archive = rrdDb.getArchive(ConsolFun.AVERAGE, steps);
-			long end = archive.getEndTime();
-			long start = end - (size - 1) * resolution;
-			FetchRequest request = rrdDb.createFetchRequest(AVERAGE, start, end, resolution);
-			FetchData fetchData = request.fetchData();
-			for (String ds : dss)
-			{
-				ret.put(ds, fetchData.getValues(ds));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ret;
 	}
 }
