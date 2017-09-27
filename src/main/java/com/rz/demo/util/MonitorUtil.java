@@ -21,17 +21,15 @@ public class MonitorUtil
 			@Override
 			public void run()
 			{
-				String mem = JmxUtil.getMemory("localhost", 9401);
-				String[] memarr = mem.split("\\|");
-				String thread = JmxUtil.getThread("localhost", 9401);
-				String[] threadarr = thread.split("\\|");
+				double[] memarr = JmxUtil.getMemory("localhost", 9401);
+				double[] threadarr = JmxUtil.getThread("localhost", 9401);
 				long cpu = JmxUtil.getCPU("localhost", 9401);
-				RrdUtils.writeRrd("hmucommitted.rrd", "hmucommitted", Double.parseDouble(memarr[1]));
-				RrdUtils.writeRrd("hmuused.rrd", "hmuused", Double.parseDouble(memarr[2]));
-				RrdUtils.writeRrd("hmumax.rrd", "hmumax", Double.parseDouble(memarr[3]));
-				RrdUtils.writeRrd("thread_daemon.rrd", "thread_daemon", Double.parseDouble(threadarr[1]));
-				RrdUtils.writeRrd("thread_started.rrd", "thread_started", Double.parseDouble(threadarr[0]));
-				RrdUtils.writeRrd("thread_active.rrd", "thread_active", Double.parseDouble(threadarr[2]));
+				RrdUtils.writeRrd("hmucommitted.rrd", "hmucommitted", memarr[1]);
+				RrdUtils.writeRrd("hmuused.rrd", "hmuused", memarr[2]);
+				RrdUtils.writeRrd("hmumax.rrd", "hmumax", memarr[3]);
+				RrdUtils.writeRrd("thread_daemon.rrd", "thread_daemon", threadarr[1]);
+				RrdUtils.writeRrd("thread_started.rrd", "thread_started", threadarr[0]);
+				RrdUtils.writeRrd("thread_active.rrd", "thread_active", threadarr[2]);
 				RrdUtils.writeRrd("cpu.rrd", "cpu", cpu);
 			}
 		}, 2000, RrdUtils.STEP * 1000);

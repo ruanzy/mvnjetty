@@ -24,9 +24,10 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return init|commited|used|max
 	 */
-	public static String getMemory(String ip, int jmxPort)
+	public static double[] getMemory(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
+		double[] arr = new double[4];
 		try
 		{
 			String jmxURL = String.format(ServiceURLFmt, ip, jmxPort);
@@ -39,13 +40,15 @@ public class JmxUtil
 			long init = heapMemoryUsage.getInit();
 			long commited = heapMemoryUsage.getCommitted();
 			long used = heapMemoryUsage.getUsed();
-			long max = heapMemoryUsage.getMax();
-			return String.format("%s|%s|%s|%s", init, commited, used, max);
+			long max = heapMemoryUsage.getMax(); 
+			arr[0]= init;
+			arr[1]= commited;
+			arr[2]= used;
+			arr[3]= max;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return null;
 		}
 		finally
 		{
@@ -61,6 +64,7 @@ public class JmxUtil
 				}
 			}
 		}
+		return arr;
 	}
 	
 	/**
@@ -68,9 +72,10 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return started|daemon|active
 	 */
-	public static String getThread(String ip, int jmxPort)
+	public static double[] getThread(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
+		double[] arr = new double[4];
 		try
 		{
 			String jmxURL = String.format(ServiceURLFmt, ip, jmxPort);
@@ -82,12 +87,13 @@ public class JmxUtil
 			long started = bean.getTotalStartedThreadCount();
 			int daemon = bean.getDaemonThreadCount();
 			int active = bean.getThreadCount();
-			return String.format("%s|%s|%s", started, daemon, active);
+			arr[0]= started;
+			arr[1]= daemon;
+			arr[2]= active;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return null;
 		}
 		finally
 		{
@@ -103,6 +109,7 @@ public class JmxUtil
 				}
 			}
 		}
+		return arr;
 	}
 
 	/**
