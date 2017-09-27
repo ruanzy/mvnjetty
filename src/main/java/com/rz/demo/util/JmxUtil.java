@@ -24,7 +24,7 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return init|commited|used|max
 	 */
-	public static String getMemory(String ip, String jmxPort)
+	public static String getMemory(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
 		try
@@ -68,7 +68,7 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return started|daemon|active
 	 */
-	public static String getThread(String ip, String jmxPort)
+	public static String getThread(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
 		try
@@ -110,7 +110,7 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return time
 	 */
-	public static long getCPU(String ip, String jmxPort)
+	public static long getCPU(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
 		try
@@ -123,9 +123,42 @@ public class JmxUtil
 					ManagementFactory.newPlatformMXBeanProxy(mbsc,                 
 					ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, OperatingSystemMXBean.class);
 			long time = osbean.getProcessCpuTime();
-			System.out.println(time);
-			System.out.println(System.currentTimeMillis());
 			return time;
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
+		finally
+		{
+			if(connector != null)
+			{
+				try
+				{
+					connector.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static int getCore(String ip, int jmxPort)
+	{
+		JMXConnector connector = null;
+		try
+		{
+			String jmxURL = String.format(ServiceURLFmt, ip, jmxPort);
+			JMXServiceURL serviceURL = new JMXServiceURL(jmxURL);
+			connector = JMXConnectorFactory.connect(serviceURL);
+			MBeanServerConnection mbsc = connector.getMBeanServerConnection();
+			OperatingSystemMXBean osbean =   
+					ManagementFactory.newPlatformMXBeanProxy(mbsc,                 
+					ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, OperatingSystemMXBean.class);
+			return osbean.getAvailableProcessors();
 		}
 		catch (IOException e)
 		{
@@ -153,7 +186,7 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return pid
 	 */
-	public static long getPID(String ip, String jmxPort)
+	public static long getPID(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
 		long pid = -1;
@@ -195,7 +228,7 @@ public class JmxUtil
 	 * @param jmxPort
 	 * @return Map
 	 */
-	public static Map<String, String> getOS(String ip, String jmxPort)
+	public static Map<String, String> getOS(String ip, int jmxPort)
 	{
 		JMXConnector connector = null;
 		Map<String, String> ret = new HashMap<String, String>();

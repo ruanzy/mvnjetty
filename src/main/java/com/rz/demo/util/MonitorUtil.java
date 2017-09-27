@@ -21,11 +21,11 @@ public class MonitorUtil
 			@Override
 			public void run()
 			{
-				String mem = JmxUtil.getMemory("localhost", "9401");
+				String mem = JmxUtil.getMemory("localhost", 9401);
 				String[] memarr = mem.split("\\|");
-				String thread = JmxUtil.getThread("localhost", "9401");
+				String thread = JmxUtil.getThread("localhost", 9401);
 				String[] threadarr = thread.split("\\|");
-				long cpu = JmxUtil.getCPU("localhost", "9401");
+				long cpu = JmxUtil.getCPU("localhost", 9401);
 				RrdUtils.writeRrd("hmucommitted.rrd", "hmucommitted", Double.parseDouble(memarr[1]));
 				RrdUtils.writeRrd("hmuused.rrd", "hmuused", Double.parseDouble(memarr[2]));
 				RrdUtils.writeRrd("hmumax.rrd", "hmumax", Double.parseDouble(memarr[3]));
@@ -39,6 +39,6 @@ public class MonitorUtil
 	
 	public static void main(String[] args)
 	{
-		System.out.println(JmxUtil.getPID("localhost", "9401"));
+		//System.out.println(JmxUtil.getPID("localhost", "9401"));
 	}
 }

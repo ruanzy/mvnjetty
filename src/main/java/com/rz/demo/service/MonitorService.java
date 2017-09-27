@@ -3,6 +3,8 @@ package com.rz.demo.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.rz.demo.util.JmxUtil;
+
 import jone.util.RrdUtils;
 
 public class MonitorService
@@ -16,6 +18,20 @@ public class MonitorService
 		ret.put("hmucommitted", hmucommitted);
 		ret.put("hmuused", hmuused);
 		ret.put("hmumax", hmumax);
+		return ret;
+    }
+	
+	public static double[] getCpu(int point)  
+    {  
+		double[] ret = new double[point];
+		int core = JmxUtil.getCore("localhost", 9401);
+		double[] cpu = RrdUtils.readLastValues("cpu.rrd", "cpu", point + 1, 1);
+		for (int i = 0; i < point; i++)
+		{
+			double d = cpu[i + 1] - cpu[i];
+			double usage = d/10000.0/5000/core;
+			ret[i] = usage;
+		}
 		return ret;
     }
 	

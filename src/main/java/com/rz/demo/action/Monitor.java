@@ -19,4 +19,10 @@ public class Monitor
 		int point = Integer.valueOf(WebUtil.param("point"));
 		return MonitorService.getThread(point);
 	}
+	
+	public double[] cpu()
+	{
+		int point = Integer.valueOf(WebUtil.param("point"));
+		return MonitorService.getCpu(point);
+	}
 }
