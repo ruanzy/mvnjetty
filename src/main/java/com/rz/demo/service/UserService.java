@@ -137,4 +137,13 @@ public class UserService
 		SQLExecutor executor = new SQLExecutor(db);
 		return executor.pager("user.count", "user.list", params, page, pagesize);
 	}
+
+	public static void update(R params)
+	{
+		String sql = "update users set pwd=? where username = ?";
+		String username = params.getString("username");
+		String phone = params.getString("phone");
+		String email = params.getString("email");
+		db.update(sql, new Object[] { phone, email, username });
+	}
 }

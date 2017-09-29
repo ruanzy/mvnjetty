@@ -57,6 +57,12 @@ public class User
 		String username = WebUtil.param("username");
 		UserService.del(username);
 	}
+	
+	public void update()
+	{
+		R params = WebUtil.params();
+		UserService.update(params);
+	}
 
 	public void cancel()
 	{

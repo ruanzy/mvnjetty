@@ -10,8 +10,8 @@ if exist "%JAVA_HOME%\bin\java.exe" goto mainEntry
 echo ---------------------------------------------------
 echo WARN: JAVA_HOME environment variable is not set. 
 echo ---------------------------------------------------
-set "JAVA_CMD=java"
+set "JVM_DEFINES=-Dcom.sun.management.jmxremote.port=9401 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 :mainEntry
 @echo on
-"%JAVA_CMD%" -jar ../abc-0.0.1-SNAPSHOT.war
+java -jar ../abc-0.0.1-SNAPSHOT.war
 pause
