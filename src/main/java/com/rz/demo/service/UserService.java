@@ -140,10 +140,16 @@ public class UserService
 
 	public static void update(R params)
 	{
-		String sql = "update users set pwd=? where username = ?";
+		String sql = "update users set phone=?, email=? where username = ?";
 		String username = params.getString("username");
 		String phone = params.getString("phone");
 		String email = params.getString("email");
 		db.update(sql, new Object[] { phone, email, username });
+	}
+	
+	public static R load(String username)
+	{
+		String sql = "select * from users where username = ?";
+		return db.findOne(sql, new Object[] { username });
 	}
 }

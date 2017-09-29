@@ -10,8 +10,7 @@ if exist "%JAVA_HOME%\bin\java.exe" goto mainEntry
 echo ---------------------------------------------------
 echo WARN: JAVA_HOME environment variable is not set. 
 echo ---------------------------------------------------
-set "JVM_DEFINES=-Dcom.sun.management.jmxremote.port=9401 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 :mainEntry
-@echo on
-java -jar ../abc-0.0.1-SNAPSHOT.war
-pause
+set "JVM_ARGS=-Dcom.sun.management.jmxremote.port=9401 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+set "JVM_XDEBUG=-Xdebug -Xrunjdwp:transport=dt_socket,address=6999,server=y,suspend=n"
+java %JVM_ARGS% %JVM_XDEBUG% -jar ../abc-0.0.1-SNAPSHOT.war

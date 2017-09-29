@@ -58,6 +58,12 @@ public class User
 		UserService.del(username);
 	}
 	
+	public void load()
+	{
+		String username = WebUtil.param("username");
+		UserService.load(username);
+	}
+	
 	public void update()
 	{
 		R params = WebUtil.params();
