@@ -5,12 +5,14 @@ import java.io.InputStreamReader;
 
 import jone.data.db.DB;
 import jone.data.db.DBs;
+import jone.quartz.QuartzUtil;
 import jone.web.Plugin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rz.demo.util.MonitorUtil;
+import com.rz.demo.job.MyJob;
+import com.rz.demo.job.MyJob2;
 
 public class Initialize implements Plugin
 {
@@ -22,9 +24,9 @@ public class Initialize implements Plugin
 		String table = "USERROLE";
 		String sqlScript = "init.sql";
 		String sql = "SELECT COUNT(*) FROM  information_schema.tables where table_schema='PUBLIC' and table_name=?";
+		DB db = DBs.getDB("h2");
 		try
 		{
-			DB db = DBs.getDB("h2");
 			long count = db.count(sql, new Object[] { table });
 			if (count == 0)
 			{
@@ -38,7 +40,9 @@ public class Initialize implements Plugin
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
-		MonitorUtil.start();
+		QuartzUtil.start(db);
+		QuartzUtil.addJob("job1", "group", "*/5 * * * * ?", MyJob.class, null);
+		QuartzUtil.addJob("job2", "group", "*/8 * * * * ?", MyJob2.class, null);
 	}
 
 	@Override
