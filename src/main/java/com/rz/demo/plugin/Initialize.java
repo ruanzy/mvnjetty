@@ -40,9 +40,9 @@ public class Initialize implements Plugin
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
-		QuartzUtil.start(db);
-		QuartzUtil.addJob("job1", "group", "*/5 * * * * ?", MyJob.class, null);
-		QuartzUtil.addJob("job2", "group", "*/8 * * * * ?", MyJob2.class, null);
+//		QuartzUtil.start(db);
+//		QuartzUtil.addJob("job1", "group", "*/5 * * * * ?", MyJob.class, null);
+//		QuartzUtil.addJob("job2", "group", "*/8 * * * * ?", MyJob2.class, null);
 	}
 
 	@Override

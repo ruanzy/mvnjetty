@@ -1,6 +1,9 @@
 #!/bin/sh
 
 #check JAVA_HOME & java
+
+$EXECUTABLE=../abc-0.0.1-SNAPSHOT.war
+LOG=log/"`date +%Y%m%d`".log
 noJavaHome=false
 if [ -z "$JAVA_HOME" ] ; then
     noJavaHome=true
@@ -14,7 +17,21 @@ if [ -z "$JAVA_HOME" ] ; then
 		echo
 		exit 1
 	fi
-RUN_CMD="\"$JAVA_HOME/bin/java\""
-RUN_CMD="$RUN_CMD -jar ../abc-0.0.1-SNAPSHOT.war
-#echo $RUN_CMD
-eval $RUN_CMD
+	
+	JVM_MEM_OPTS="-Xms1024m
+        -Xmx1024m
+        -XX:PermSize=128m
+        -XX:MaxPermSize=128m"
+
+	echo "Java memory options: ${JVM_MEM_OPTS}"
+	
+    JVM_OPTIONS="${JVM_MEM_OPTS}
+        -XX:-UseGCOverheadLimit -XX:+HeapDumpOnOutOfMemoryError";
+
+    JVM_DEFINES=" 
+         -Djava.io.tmpdir=./work
+         -Xdebug -Xrunjdwp:transport=dt_socket,address=6999,server=y,suspend=n
+        ";
+    mkdir -p ./log ./work;
+
+	nohup java $JVM_OPTIONS $JVM_DEFINES  -jar $EXECUTABLE > ./$LOG 2>&1 &
