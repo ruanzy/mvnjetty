@@ -23,8 +23,8 @@
 			<directory>bin</directory>
 			<outputDirectory>\bin</outputDirectory>
 			<includes>
-				<include>start.bat</include>
-				<include>start.sh</include>
+				<include>startup.bat</include>
+				<include>startup.sh</include>
 			</includes>
 		</fileSet>
 	</fileSets>

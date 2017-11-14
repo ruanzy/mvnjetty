@@ -14,5 +14,6 @@ echo ---------------------------------------------------
 :mainEntry
 set "JVM_ARGS=-Dcom.sun.management.jmxremote.port=9401 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 set "JVM_XDEBUG=-Xdebug -Xrunjdwp:transport=dt_socket,address=6999,server=y,suspend=n"
-mkdir ../log ../work 2>nul
+mkdir ../log
+mkdir ../work
 java %JVM_ARGS% %JVM_XDEBUG% -jar %EXECUTABLE% > %LOG%
