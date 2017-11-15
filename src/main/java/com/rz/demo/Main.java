@@ -1,4 +1,5 @@
 package com.rz.demo;
+
 import java.io.File;
 import java.net.URL;
 import java.security.ProtectionDomain;
@@ -11,39 +12,38 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		int port = 9090;
-		String contextPath = "/";
+		int port = 8080;
+		if (args.length > 0)
+		{
+			try
+			{
+				port = Integer.valueOf(args[0].toString());
+			}
+			catch (Exception e)
+			{
+				throw new RuntimeException(
+						"The server port must be an integer of 0-65535");
+			}
+		}
 		Server server = new Server(port);
 		server.setStopAtShutdown(true);
 		ProtectionDomain protectionDomain = Main.class.getProtectionDomain();
 		URL location = protectionDomain.getCodeSource().getLocation();
 		String warFile = location.toExternalForm();
-		WebAppContext context = new WebAppContext(warFile, contextPath);
-		context.setServer(server);
-		String currentDir = new File(location.getPath()).getParent();
-		File workDir = new File(currentDir, "work");
-		context.setTempDirectory(workDir);
-		context.setExtraClasspath(currentDir + "/conf");
-		server.setHandler(context);
+		WebAppContext context = new WebAppContext(warFile, "");
 		try
 		{
+			context.setServer(server);
+			String currentDir = new File(location.getPath()).getParent();
+			File workDir = new File(currentDir, "work");
+			context.setTempDirectory(workDir);
+			context.setExtraClasspath(currentDir + "/conf");
+			server.setHandler(context);
 			server.start();
-			server.join();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				server.stop();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
 		}
 	}
 }

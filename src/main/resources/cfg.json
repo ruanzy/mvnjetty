@@ -1,11 +1,10 @@
 {	
-	datasource : {
+	datasource: {
 		h2: { 
 			driverClassName : "org.h2.Driver", 
 			url : "jdbc:h2:file:d:/rzy/h2db/doc", 
 			username : "SA", 
 			password : "" 
 		}
-	},
-	rrdDir: "d:/rzy/myrrd"
+	}
 }
