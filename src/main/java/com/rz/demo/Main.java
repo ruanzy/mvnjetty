@@ -4,13 +4,19 @@ import java.io.File;
 import java.net.URL;
 import java.security.ProtectionDomain;
 
+import jone.web.Launcher;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Main
 {
-
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
+	{
+		Launcher.start(9090, "");
+	}
+	
+	public static void a(String[] args)
 	{
 		int port = 8080;
 		if (args.length > 0)

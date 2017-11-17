@@ -5,14 +5,12 @@ import java.io.InputStreamReader;
 
 import jone.data.db.DB;
 import jone.data.db.DBs;
-import jone.quartz.QuartzUtil;
 import jone.web.Plugin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rz.demo.job.MyJob;
-import com.rz.demo.job.MyJob2;
+import com.rz.demo.util.MetricUtil;
 
 public class Initialize implements Plugin
 {
@@ -40,6 +38,7 @@ public class Initialize implements Plugin
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
+		//MetricUtil.start();
 //		QuartzUtil.start(db);
 //		QuartzUtil.addJob("job1", "group", "*/5 * * * * ?", MyJob.class, null);
 //		QuartzUtil.addJob("job2", "group", "*/8 * * * * ?", MyJob2.class, null);
