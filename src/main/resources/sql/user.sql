@@ -1,16 +1,16 @@
-count
-===
-select count(1) from users where 1=1
-#if(name){
-and name = #(name)
+#sql('count')
+	select count(1) from users where 1=1
+	#if(name)
+	and username = #p(name)
+	#end
+	and isadmin = 0
 #end
-and isadmin = 0
 
-list
-===
+#sql('list')
 select * from users where 1=1
-#if(name){
-and name = #(name)
+#if(name)
+and username = #p(name)
 #end
 and isadmin = 0
 order by regtime DESC
+#end

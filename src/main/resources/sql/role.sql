@@ -1,17 +1,17 @@
-rolecount
-===
-select count(1) from role where 1=1
-#if(name){
-and name = #(name)
+#sql('rolecount')
+	select count(1) from role where 1=1
+	#if(name)
+	and name = #p(name)
+	#end
 #end
 
-rolelist
-===
-select * from role where 1=1
-#if(name){
-and name = #(name)
+#sql('rolelist')
+	select * from role where 1=1
+	#if(name)
+	and name = #p(name)
+	#end
 #end
 
-listAll
-===
-select * from role
+#sql('listAll')
+	select * from role
+#end
